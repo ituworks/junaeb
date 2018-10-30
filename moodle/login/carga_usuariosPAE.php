@@ -181,7 +181,7 @@ foreach ($records as $var)
 die();
 */
 //Carga CSV Con datos
-$archivo = "cargas_manuales/test.csv";  //Ruta del archivo CSV
+$archivo = "cargas_manuales/cargaPAE30-10-2018.csv";  //Ruta del archivo CSV
 //$archivo = "cargas_manuales/test.csv";  //Ruta del archivo CSV
 //$archivo = "";
 
