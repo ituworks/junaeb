@@ -171,7 +171,13 @@ echo $OUTPUT->custom_block_region('content');
  *   2018-10-30
  */
 if (!isguestuser()) {
+    global $USER;
+    echo '<input type="hidden" name="$USER->id" value="'.$USER->id.'">';
+    echo '<input type="hidden" name="$USER->username" value="'.$USER->username.'">';
+    echo '<input type="hidden" name="$USER->email" value="'.$USER->email.'">';
+
     $user_id = $USER->id;
+
     $sql = '
             SELECT
                 {user}.*,
@@ -188,7 +194,8 @@ if (!isguestuser()) {
         // Este usuario se encuentra registrado en la cohorte id = 18
         // Se le debe mostrar el boton para ir al dashboard
         $url_dashboard = new moodle_url('/dashboard/index.php');
-        echo '<a href="'.$url_dashboard.'" class="btn btn-primary">Dasboard de Reporte</a>';
+        echo '<input type="hidden" name="Dasboard de Reporte" value="Dasboard de Reporte">';
+        // echo '<a href="'.$url_dashboard.'" class="btn btn-primary">Dasboard de Reporte</a>';
     }
 }
 /*
