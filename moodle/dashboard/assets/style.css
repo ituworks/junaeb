@@ -1,0 +1,6 @@
+#page-header {
+    height: 15px;
+}
+#page-header > div {
+    display: none;
+}
