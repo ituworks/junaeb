@@ -6,6 +6,7 @@
  */
 require_once(dirname(__FILE__) . '/../config.php');
 global $DB;
+/*
 global $USER;
 $user_id = $USER->id;
 $sql = '
@@ -23,7 +24,7 @@ $sql = '
 $user = $DB->get_record_sql($sql);
 $user_id = $user->userid;
 if ($user_id != 0):
-    // usuario se encuentra registrado en la cohorte id = 18
+    // usuario se encuentra registrado en la cohorte id = 18 */
     if ( (!empty($_GET["course_id"]))  && (!empty($_GET["category_id"])) ):
         global $DB;
         $aggregationstatus = $_GET["aggregationstatus"];
@@ -113,6 +114,53 @@ if ($user_id != 0):
                 <li class="breadcrumb-item active" aria-current="page"><?php echo $course->fullname; ?></li>
             </ol>
         </nav>
+        <p>A continuación observa el reporte de las calificaciones de este curso. <button href="#" data-toggle="modal" data-target="#glosaModal" class="btn btn-info btn-sm">Ver detalles</button></p>
+        <!-- Modal -->
+        <div class="modal fade" id="glosaModal" tabindex="-1" role="dialog" aria-labelledby="glosaModal" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                  <p>
+                      Usted puede hacer el análisis de los datos, con las siguientes características.
+                  </p>
+                  <p>
+                      En sección "estados" se muestras 3 opciones, las cuales se detallas a continuación:
+                  </p>
+                  <ul>
+                      <li>
+                          <b>Todos:</b> Aquí te mostramos todos los usuarios que han ingresado a realizar el examen de este curso, aquí se agrupan usuarios que están en estado de realización "Finalizados" y "en curso".
+                      </li>
+                      <li>
+                          <b>Finalizados:</b> Aquí se muestran los usuarios que han realizado exitosamente su examen y cuentan con una calificación final.
+                      </li>
+                      <li>
+                          <b>En curso:</b> Aquí se muestran los usuarios que están realizando su examen final o aun no terminan por completo su examen.
+                      </li>
+                  </ul>
+                  <p>
+                      En todos los casos, te mostramos la cantidad total de estudiantes y el promedio total de sus calificaciones, según región.
+                      Si quieres ver el detalle por región, ve a “ver más”, además puedes descargar el informe en formato Excel.
+                  </p>
+                  <p>
+                      Además, puede filtrar por tipo de usuario en “grupos” los cuales corresponden a:
+                  </p>
+                  <ul>
+                      <li>
+                          <b>JUNAEB:</b> son todos aquellos participantes que han realizado o están realizando el examen de este curso, y son funcionarios Junaeb
+                      </li>
+                      <li>
+                          <b>PAE:</b> son todos aquellos participantes que han realizado o están realizando el examen de este curso, y no son funcionarios Junaeb pero si son parte del programa PAE.
+                      </li>
+                  </ul>
+
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <h2>
             <?php echo $course->fullname; ?>
         </h2>
@@ -334,9 +382,11 @@ if ($user_id != 0):
         $url = new moodle_url('/dashboard/index.php');
         redirect($url);
     endif;
+/*
 else:
     echo $OUTPUT->header();
     echo "<h1>Usted no poseea acceso</h1>";
     echo $OUTPUT->footer();
 endif;
+*/
 ?>
