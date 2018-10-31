@@ -172,21 +172,18 @@ echo $OUTPUT->custom_block_region('content');
  */
 if (!isguestuser()) {
     global $USER;
-    echo '<input type="hidden" name="$USER->id" value="'.$USER->id.'">';
-    echo '<input type="hidden" name="$USER->username" value="'.$USER->username.'">';
-    echo '<input type="hidden" name="$USER->email" value="'.$USER->email.'">';
-
     $user_id = $USER->id;
-
     $sql = '
             SELECT
                 {user}.*,
                 {cohort_members}.userid
             FROM
                 {user}
-                INNER JOIN {cohort_members} ON {cohort_members}.userid = {user}.id
+                LEFT JOIN {cohort_members} ON {cohort_members}.userid = {user}.id
             WHERE
                 {user}.id = '.$user_id.'
+                AND {cohort_members}.cohortid = 18
+
         ';
     $user = $DB->get_record_sql($sql);
     $user_id = $user->userid;
@@ -194,8 +191,7 @@ if (!isguestuser()) {
         // Este usuario se encuentra registrado en la cohorte id = 18
         // Se le debe mostrar el boton para ir al dashboard
         $url_dashboard = new moodle_url('/dashboard/index.php');
-        echo '<input type="hidden" name="Dasboard de Reporte" value="Dasboard de Reporte">';
-        // echo '<a href="'.$url_dashboard.'" class="btn btn-primary">Dasboard de Reporte</a>';
+        echo '<a href="'.$url_dashboard.'" class="btn btn-primary">Dasboard de Reporte</a>';
     }
 }
 /*
