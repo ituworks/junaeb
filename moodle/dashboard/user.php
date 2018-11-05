@@ -86,7 +86,8 @@ if ($user_id != 0):
         $sql = '
                 SELECT
                     {user}.*,
-                    {grade_grades}.finalgrade
+                    {grade_grades}.finalgrade,
+                    max({grade_grades}.rawgrademax) as rawgrademax
                 FROM
                     {grade_grades}
                     INNER JOIN {user} ON {user}.id = {grade_grades}.userid
@@ -220,6 +221,7 @@ if ($user_id != 0):
                                 <th scope="col">#</th>
                                 <th scope="col">Datos del Usuario</th>
                                 <th scope="col">Nota</th>
+                                <th scope="col">Nota Máxima</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -259,6 +261,9 @@ if ($user_id != 0):
                                 </td>
                                 <td>
                                     <?php echo number_format($row->finalgrade, 2); ?>
+                                </td>
+                                <td>
+                                    <?php echo number_format($row->rawgrademax, 2); ?>
                                 </td>
                             </tr>
                             <?php

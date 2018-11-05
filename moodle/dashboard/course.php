@@ -81,7 +81,8 @@ if ($user_id != 0):
                     {user}.id,
                     {user}.region,
                     count(*) as n,
-                    sum({grade_grades}.finalgrade) as finalgrade
+                    sum({grade_grades}.finalgrade) as finalgrade,
+                    max({grade_grades}.rawgrademax) as rawgrademax
                 FROM
                     {grade_grades}
                     INNER JOIN {user} ON {user}.id = {grade_grades}.userid
@@ -256,6 +257,7 @@ if ($user_id != 0):
                                 <th scope="col">Region</th>
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Promedio</th>
+                                <th scope="col">Nota Máxima</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -284,6 +286,9 @@ if ($user_id != 0):
                                 </td>
                                 <td>
                                     <?php echo number_format($row->finalgrade/$row->n, 2); ?>
+                                </td>
+                                <td>
+                                    <?php echo number_format($row->rawgrademax, 2); ?>
                                 </td>
                                 <td>
                                     <a href="<?php echo $row->url; ?>" class="btn btn-primary">
