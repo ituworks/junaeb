@@ -181,7 +181,7 @@ foreach ($records as $var)
 die();
 */
 //Carga CSV Con datos
-$archivo = "cargas_manuales/cargaPAE30-10-2018.csv";  //Ruta del archivo CSV
+$archivo = "cargas_manuales/cargaPAE_2018-11-05.csv";  //Ruta del archivo CSV
 //$archivo = "cargas_manuales/test.csv";  //Ruta del archivo CSV
 //$archivo = "";
 
@@ -199,6 +199,7 @@ while($linea = fgets($file))
   $rbd = $data[8];
   $telefono = $data[9];
   $region = $data[10];
+  $perfil = $data[5].' - '.$data[6];
 
 //valida los datos
 $code = 0;
@@ -292,6 +293,7 @@ if ($code == 0)
                 $usuario->rut = $rut;
                 $usuario->rbd = $rdb;
                 $usuario->phone1 = $telefono;
+                $usuario->perfil = $perfil;
                 $usuario->city = $region;
                 $usuario->type_user = "77";
                 $usuario->country = "BR";
@@ -315,6 +317,7 @@ if ($code == 0)
                 $usuario->city = $region;
                 $usuario->type_user = "78";
                 $usuario->country = "AR";
+                $usuario->perfil = $perfil;
                 $usuario->rut = $rut;
                 $sendmail = 0;
                 $DB->update_record("user", $usuario);
@@ -341,9 +344,8 @@ if ($code == 0)
             $rst = enrol(27,$userid);
             // Bienvenida al Programa para Encargados PAE
 
-            $rst = cohort_add_member(17,$userid);
-            // Agrega a cohorte Estos usuarios fueron cargados con la informaciòn que entregaron los directores en formularios GOOGLE
-            // echo "X".$count;
+            $rst = cohort_add_member(19,$userid);
+            // Listado Nacional PAE 05/11/2018
 
 
         }
