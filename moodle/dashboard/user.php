@@ -86,8 +86,7 @@ if ($user_id != 0):
         $sql = '
                 SELECT
                     {user}.*,
-                    {grade_grades}.finalgrade,
-                    {grade_grades}.rawgrademax
+                    {grade_grades}.finalgrade
                 FROM
                     {grade_grades}
                     INNER JOIN {user} ON {user}.id = {grade_grades}.userid
@@ -102,6 +101,16 @@ if ($user_id != 0):
                 ORDER BY {user}.username ASC
                 ';
         $rows = $DB->get_records_sql($sql, $params=null, $limitfrom=0, $limitnum=0);
+        $sql = '
+                SELECT
+                    *
+                FROM
+                    {grade_items}
+                WHERE
+                    {grade_items}.courseid = ' . $course_id . '
+                    AND {grade_items}.itemmodule = "quiz"
+                ';
+        $grade_items = $DB->get_record_sql($sql);
         echo $OUTPUT->header();
     ?>
     <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/dashboard/assets/node_modules/bootstrap/dist/css/bootstrap.min.css'; ?>">
@@ -130,6 +139,7 @@ if ($user_id != 0):
         <h3>
             Usuarios de la región <?php echo $region_title; ?>
         </h3>
+        <p class="text-right"><b>Nota Máxima <?php echo number_format($grade_items->grademax, 2); ?></b></p>
         <div class="row">
             <div class="col">
                 <ul class="nav nav-pills">
@@ -221,7 +231,6 @@ if ($user_id != 0):
                                 <th scope="col">#</th>
                                 <th scope="col">Datos del Usuario</th>
                                 <th scope="col">Nota</th>
-                                <th scope="col">Nota Máxima</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -261,9 +270,6 @@ if ($user_id != 0):
                                 </td>
                                 <td>
                                     <?php echo number_format($row->finalgrade, 2); ?>
-                                </td>
-                                <td>
-                                    <?php echo number_format($row->rawgrademax, 2); ?>
                                 </td>
                             </tr>
                             <?php

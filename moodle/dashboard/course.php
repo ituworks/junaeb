@@ -97,20 +97,14 @@ if ($user_id != 0):
         $rows = $DB->get_records_sql($sql, $params=null, $limitfrom=0, $limitnum=0);
         $sql = '
                 SELECT
-                    max({grade_grades}.rawgrademax) as rawgrademax
+                    *
                 FROM
-                    {grade_grades}
-                    INNER JOIN {user} ON {user}.id = {grade_grades}.userid
-                    INNER JOIN {grade_items} ON {grade_items}.id = {grade_grades}.itemid
+                    {grade_items}
                 WHERE
                     {grade_items}.courseid = ' . $course_id . '
-                    AND {user}.deleted = 0
                     AND {grade_items}.itemmodule = "quiz"
-                    AND {grade_grades}.aggregationstatus IN ('.$aggregationstatus.')
-                    AND {user}.email '.$not_like.' LIKE "%'.$email.'%"
-                GROUP BY rawgrademax
                 ';
-        $grade_grades = $DB->get_record_sql($sql);
+        $grade_items = $DB->get_record_sql($sql);
         echo $OUTPUT->header();
     ?>
     <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/dashboard/assets/node_modules/bootstrap/dist/css/bootstrap.min.css'; ?>">
@@ -136,7 +130,7 @@ if ($user_id != 0):
                 </p>
             </div>
             <div class="col-3">
-                <p class="text-right"><b>Nota Máxima <?php echo number_format($grade_grades->rawgrademax, 2); ?></b></p>
+                <p class="text-right"><b>Nota Máxima <?php echo number_format($grade_items->grademax, 2); ?></b></p>
             </div>
         </div>
 
