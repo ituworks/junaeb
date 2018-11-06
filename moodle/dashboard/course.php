@@ -327,7 +327,7 @@ if ($user_id != 0):
                                   <?php echo $sum_cantidad; ?>
                               </th>
                               <th scope="col">
-                                  <?php echo number_format($sum_promedio/$i, 2); ?>
+                                  <?php echo number_format($sum_promedio/$sum_cantidad, 2); ?>
                               </th>
                               <th scope="col"></th>
                           </tr>
