@@ -6,7 +6,6 @@
  */
 require_once(dirname(__FILE__) . '/../config.php');
 global $DB;
-/*
 global $USER;
 $user_id = $USER->id;
 $sql = '
@@ -24,7 +23,7 @@ $sql = '
 $user = $DB->get_record_sql($sql);
 $user_id = $user->userid;
 if ($user_id != 0):
-    // usuario se encuentra registrado en la cohorte id = 18 */
+    // usuario se encuentra registrado en la cohorte id = 18
     if ( (!empty($_GET["course_id"]))  && (!empty($_GET["category_id"])) ):
         global $DB;
         $aggregationstatus = $_GET["aggregationstatus"];
@@ -97,6 +96,22 @@ if ($user_id != 0):
                 ORDER BY {user}.region ASC
                 ';
         $rows = $DB->get_records_sql($sql, $params=null, $limitfrom=0, $limitnum=0);
+        $sql = '
+                SELECT
+                    max({grade_grades}.rawgrademax) as rawgrademax
+                FROM
+                    {grade_grades}
+                    INNER JOIN {user} ON {user}.id = {grade_grades}.userid
+                    INNER JOIN {grade_items} ON {grade_items}.id = {grade_grades}.itemid
+                WHERE
+                    {grade_items}.courseid = ' . $course_id . '
+                    AND {user}.deleted = 0
+                    AND {grade_items}.itemmodule = "quiz"
+                    AND {grade_grades}.aggregationstatus IN ('.$aggregationstatus.')
+                    AND {user}.email '.$not_like.' LIKE "%'.$email.'%"
+                GROUP BY rawgrademax
+                ';
+        $grade_grades = $DB->get_record_sql($sql);
         echo $OUTPUT->header();
     ?>
     <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/dashboard/assets/node_modules/bootstrap/dist/css/bootstrap.min.css'; ?>">
@@ -115,7 +130,17 @@ if ($user_id != 0):
                 <li class="breadcrumb-item active" aria-current="page"><?php echo $course->fullname; ?></li>
             </ol>
         </nav>
-        <p>A continuación observa el reporte de las calificaciones de este curso. <button href="#" data-toggle="modal" data-target="#glosaModal" class="btn btn-info btn-sm">Ver detalles</button></p>
+        <div class="row">
+            <div class="col">
+                <p>
+                    A continuación observa el reporte de las calificaciones de este curso. <button href="#" data-toggle="modal" data-target="#glosaModal" class="btn btn-info btn-sm">Ver detalles</button>
+                </p>
+            </div>
+            <div class="col-3">
+                <p class="text-right"><b>Nota Máxima <?php echo number_format($grade_grades->rawgrademax, 2); ?></b></p>
+            </div>
+        </div>
+
         <!-- Modal -->
         <div class="modal fade" id="glosaModal" tabindex="-1" role="dialog" aria-labelledby="glosaModal" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
@@ -257,7 +282,6 @@ if ($user_id != 0):
                                 <th scope="col">Region</th>
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Promedio</th>
-                                <th scope="col">Nota Máxima</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -286,9 +310,6 @@ if ($user_id != 0):
                                 </td>
                                 <td>
                                     <?php echo number_format($row->finalgrade/$row->n, 2); ?>
-                                </td>
-                                <td>
-                                    <?php echo number_format($row->rawgrademax, 2); ?>
                                 </td>
                                 <td>
                                     <a href="<?php echo $row->url; ?>" class="btn btn-primary">
@@ -387,11 +408,9 @@ if ($user_id != 0):
         $url = new moodle_url('/dashboard/index.php');
         redirect($url);
     endif;
-/*
 else:
     echo $OUTPUT->header();
     echo "<h1>Usted no poseea acceso</h1>";
     echo $OUTPUT->footer();
 endif;
-*/
 ?>

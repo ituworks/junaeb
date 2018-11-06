@@ -6,7 +6,6 @@
  */
 require_once(dirname(__FILE__) . '/../config.php');
 global $DB;
-/*
 global $USER;
 $user_id = $USER->id;
 $sql = '
@@ -24,7 +23,7 @@ $sql = '
 $user = $DB->get_record_sql($sql);
 $user_id = $user->userid;
 if ($user_id != 0):
-    // usuario se encuentra registrado en la cohorte id = 18 */
+    // usuario se encuentra registrado en la cohorte id = 18
     if (!empty($_GET["category_id"])):
         $category_id = $_GET["category_id"];
         $sql = 'SELECT * FROM {course_categories} WHERE {course_categories}.id = ' . $category_id;
@@ -94,11 +93,9 @@ if ($user_id != 0):
         $url = new moodle_url('/dashboard/index.php');
         redirect($url);
     endif;
-/*
 else:
     echo $OUTPUT->header();
     echo "<h1>Usted no poseea acceso</h1>";
     echo $OUTPUT->footer();
 endif;
-*/
 ?>
