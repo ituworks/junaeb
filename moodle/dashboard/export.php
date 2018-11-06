@@ -94,8 +94,7 @@ if ($user_id != 0):
         $sql = '
                 SELECT
                     {user}.*,
-                    {grade_grades}.finalgrade,
-                    max({grade_grades}.rawgrademax) as rawgrademax
+                    {grade_grades}.finalgrade
                 FROM
                     {grade_grades}
                     INNER JOIN {user} ON {user}.id = {grade_grades}.userid
@@ -123,7 +122,6 @@ if ($user_id != 0):
         $objPHPExcel->getActiveSheet()->setCellValue('H'.$i,'Perfil');
         $objPHPExcel->getActiveSheet()->setCellValue('I'.$i,'RDB');
         $objPHPExcel->getActiveSheet()->setCellValue('J'.$i,'NOTA');
-        $objPHPExcel->getActiveSheet()->setCellValue('K'.$i,'NOTA MAXIMA');
         // setting column body
         $i=2;
         foreach ($rows as $row):
@@ -136,7 +134,6 @@ if ($user_id != 0):
             $objPHPExcel->getActiveSheet()->setCellValue('H'.$i,$row->perfil);
             $objPHPExcel->getActiveSheet()->setCellValue('I'.$i,$row->rbd);
             $objPHPExcel->getActiveSheet()->setCellValue('J'.$i,number_format($row->finalgrade, 2));
-            $objPHPExcel->getActiveSheet()->setCellValue('J'.$i,number_format($row->rawgrademax, 2));
             $i++;
         endforeach;
         // Redirect output to a client’s web browser (Excel5)

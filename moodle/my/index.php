@@ -191,7 +191,7 @@ if (!isguestuser()) {
         // Este usuario se encuentra registrado en la cohorte id = 18
         // Se le debe mostrar el boton para ir al dashboard
         $url_dashboard = new moodle_url('/dashboard/index.php');
-        echo '<a href="'.$url_dashboard.'" class="btn btn-primary">Dasboard de Reporte</a>';
+        echo '<a href="'.$url_dashboard.'" class="btn btn-primary">Dashboard de Reporte</a>';
     }
 }
 /*

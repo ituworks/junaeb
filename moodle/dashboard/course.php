@@ -80,8 +80,7 @@ if ($user_id != 0):
                     {user}.id,
                     {user}.region,
                     count(*) as n,
-                    sum({grade_grades}.finalgrade) as finalgrade,
-                    max({grade_grades}.rawgrademax) as rawgrademax
+                    sum({grade_grades}.finalgrade) as finalgrade
                 FROM
                     {grade_grades}
                     INNER JOIN {user} ON {user}.id = {grade_grades}.userid
@@ -328,7 +327,7 @@ if ($user_id != 0):
                                   <?php echo $sum_cantidad; ?>
                               </th>
                               <th scope="col">
-                                  <?php echo number_format($sum_promedio/$sum_cantidad, 2); ?>
+                                  <?php echo number_format($sum_promedio/$i, 2); ?>
                               </th>
                               <th scope="col"></th>
                           </tr>

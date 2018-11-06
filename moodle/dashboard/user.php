@@ -86,8 +86,7 @@ if ($user_id != 0):
         $sql = '
                 SELECT
                     {user}.*,
-                    {grade_grades}.finalgrade,
-                    max({grade_grades}.rawgrademax) as rawgrademax
+                    {grade_grades}.finalgrade
                 FROM
                     {grade_grades}
                     INNER JOIN {user} ON {user}.id = {grade_grades}.userid
