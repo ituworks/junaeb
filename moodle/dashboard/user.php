@@ -86,7 +86,8 @@ if ($user_id != 0):
         $sql = '
                 SELECT
                     {user}.*,
-                    {grade_grades}.finalgrade
+                    {grade_grades}.finalgrade,
+                    {grade_grades}.rawgrademax
                 FROM
                     {grade_grades}
                     INNER JOIN {user} ON {user}.id = {grade_grades}.userid
@@ -101,22 +102,6 @@ if ($user_id != 0):
                 ORDER BY {user}.username ASC
                 ';
         $rows = $DB->get_records_sql($sql, $params=null, $limitfrom=0, $limitnum=0);
-        $sql = '
-                SELECT
-                    max({grade_grades}.rawgrademax) as rawgrademax
-                FROM
-                    {grade_grades}
-                    INNER JOIN {user} ON {user}.id = {grade_grades}.userid
-                    INNER JOIN {grade_items} ON {grade_items}.id = {grade_grades}.itemid
-                WHERE
-                    {grade_items}.courseid = ' . $course_id . '
-                    AND {user}.deleted = 0
-                    AND {grade_items}.itemmodule = "quiz"
-                    AND {grade_grades}.aggregationstatus IN ('.$aggregationstatus.')
-                    AND {user}.email '.$not_like.' LIKE "%'.$email.'%"
-                GROUP BY rawgrademax
-                ';
-        $grade_grades = $DB->get_record_sql($sql);
         echo $OUTPUT->header();
     ?>
     <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/dashboard/assets/node_modules/bootstrap/dist/css/bootstrap.min.css'; ?>">
@@ -145,7 +130,6 @@ if ($user_id != 0):
         <h3>
             Usuarios de la región <?php echo $region_title; ?>
         </h3>
-        <p class="text-left"><b>Nota Máxima <?php echo number_format($grade_grades->rawgrademax, 2); ?></b></p>
         <div class="row">
             <div class="col">
                 <ul class="nav nav-pills">
@@ -237,6 +221,7 @@ if ($user_id != 0):
                                 <th scope="col">#</th>
                                 <th scope="col">Datos del Usuario</th>
                                 <th scope="col">Nota</th>
+                                <th scope="col">Nota Máxima</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -276,6 +261,9 @@ if ($user_id != 0):
                                 </td>
                                 <td>
                                     <?php echo number_format($row->finalgrade, 2); ?>
+                                </td>
+                                <td>
+                                    <?php echo number_format($row->rawgrademax, 2); ?>
                                 </td>
                             </tr>
                             <?php
