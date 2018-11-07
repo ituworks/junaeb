@@ -265,6 +265,7 @@ if ($user_id != 0):
                 </ul>
             </div>
         </div>
+        <?php if(count($rows)>0): ?>
         <div class="table-crud">
             <div class="row">
                 <div class="col">
@@ -285,7 +286,7 @@ if ($user_id != 0):
                                 foreach ($rows as $row):
                                     $i++;
                                     $sum_cantidad = $sum_cantidad + $row->n;
-                                    $sum_promedio = $sum_promedio + $row->finalgrade;
+                                    $sum_promedio = $sum_promedio + $row->finalgrade/$row->n;
                                     if (!$row->region) {
                                         $row->region = 'Sin definir';
                                     }
@@ -395,6 +396,11 @@ if ($user_id != 0):
                 </div>
             </div>
         </div>
+    <?php else: ?>
+        <div class="alert alert-info m-t-1">
+            Sin resultados
+        </div>
+    <?php endif; ?>
     <?php echo $OUTPUT->footer();  ?>
 <?php
     else:

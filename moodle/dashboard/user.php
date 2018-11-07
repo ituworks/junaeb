@@ -222,6 +222,7 @@ if ($user_id != 0):
                 </ul>
             </div>
         </div>
+        <?php if(count($rows)>0): ?>
         <div class="table-crud">
             <div class="row">
                 <div class="col">
@@ -293,10 +294,15 @@ if ($user_id != 0):
                     <?php
                         $url_export = new moodle_url('/dashboard/export.php', array('category_id' => $category->id, 'course_id' => $course_id, 'region' => $region_title, 'group' => $group_url, 'aggregationstatus' => $aggregationstatus_url ));
                     ?>
-                    <a href="<?php echo $url_export; ?>" class="btn btn-primary btn-lg">Descargar CSV</a>
+                    <a href="<?php echo $url_export; ?>" class="btn btn-primary btn-lg">Descargar XLS</a>
                 </div>
             </div>
         </div>
+    <?php else: ?>
+        <div class="alert alert-info m-t-1">
+            Sin resultados
+        </div>
+    <?php endif; ?>
     <?php echo $OUTPUT->footer();  ?>
 <?php
         else:

@@ -45,7 +45,7 @@ if ($user_id != 0):
         </ol>
     </nav>
     <p>Por favor seleccione la categoría de curso que desea analizar</p>
-    <h2>Lista de categorias</h2>
+    <h2>Lista de categorías</h2>
     <div class="table-crud">
         <table class="table">
             <thead>

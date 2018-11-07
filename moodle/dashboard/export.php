@@ -141,11 +141,21 @@ if ($user_id != 0):
         endforeach;
         // Redirect output to a client’s web browser (Excel5)
         $name_file = date('Ymd-his');
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");;
+        header("Content-Disposition: attachment;filename=$name_file.xls");
+        header("Content-Transfer-Encoding: binary ");
+        /*
         header('Content-type: text/csv');
         header('Content-Disposition: attachment;filename="export-'.$name_file.'.csv"');
         header('Cache-Control: max-age=0');
+        */
         // Create
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save('php://output');
         exit;
     else:
